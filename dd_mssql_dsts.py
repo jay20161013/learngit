@@ -13,8 +13,8 @@ import ssl
 ----------------------------------------------
 # 需要CMD命令下安装以下支持库：
 # pip install apscheduler
-# pip install pymysql
-# By wzy 2018-9-28
+# pip install pymssql
+
 ----------------------------------------------
 '''
 #Mac下关闭ssl验证，不然会报错
@@ -120,11 +120,11 @@ def main():
 
     #1.Text类型群发消息
     #合并标题和数据
-    My_content = "hello,  @188XXXXXXXX 这是一个测试消息"
-    my_data = get_ddmodel_datas(1)
-    #把文本内容写入请求格式中
-    my_data["text"]["content"] = My_content
-    send_request(my_url, my_data)
+    # My_content = "hello,  @188XXXXXXXX 这是一个测试消息"
+    # my_data = get_ddmodel_datas(1)
+    # #把文本内容写入请求格式中
+    # my_data["text"]["content"] = My_content
+    # send_request(my_url, my_data)
 
     #2.Markdown类型群发消息（MySQL查询结果发送）
     #获取sql数据
@@ -141,7 +141,7 @@ def main():
     data = data.replace(',','\t')
     print(data)
 
-    Mytitle = "#### XXX报表\r\n单位\t数量\t\n\r %s"
+    Mytitle = "#### 南方报表\r\n条码\t华智编码\t仓库\t\n\r %s"
     my_Mytitle = Mytitle.join('\t\n') % data
     my_data = get_ddmodel_datas(2)
     my_data["markdown"]["title"] ="XXXX 通报"
@@ -149,17 +149,17 @@ def main():
     send_request(my_url, my_data)
 
     #3.Markdown（带图片@对象）
-    my_data = get_ddmodel_datas(3)
-    my_data["markdown"]["title"] = "系统预警"
-    my_data["markdown"]["text"] = "#### 系统预警内容  \n > @188XXXXXXXX \n\n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)\n  > ###### 20点00分发布 [详情](http://www.baidu.cn/)"
-    send_request(my_url, my_data)
+    # my_data = get_ddmodel_datas(3)
+    # my_data["markdown"]["title"] = "系统预警"
+    # my_data["markdown"]["text"] = "#### 系统预警内容  \n > @188XXXXXXXX \n\n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)\n  > ###### 20点00分发布 [详情](http://www.baidu.cn/)"
+    # send_request(my_url, my_data)
 
     #4.Link类型群发消息
-    my_data = get_ddmodel_datas(4)
-    my_data["link"]["text"] = "群机器人是钉钉群的高级扩展功能。群机器人可以将第三方服务的信息聚合到群聊中，实现自动化的信息同步。 "
-    my_data["link"]["title"] = "自定义机器人协议"
-    my_data["link"]["messageUrl"] = "https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.Rqyvqo&treeId=257&articleId=105735&docType=1"
-    send_request(my_url, my_data)
+    # my_data = get_ddmodel_datas(4)
+    # my_data["link"]["text"] = "群机器人是钉钉群的高级扩展功能。群机器人可以将第三方服务的信息聚合到群聊中，实现自动化的信息同步。 "
+    # my_data["link"]["title"] = "自定义机器人协议"
+    # my_data["link"]["messageUrl"] = "https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.Rqyvqo&treeId=257&articleId=105735&docType=1"
+    # send_request(my_url, my_data)
 
 if __name__ == "__main__":
     #定时执行任务，需要先安装apscheduler库，cmd窗口命令：pip install apscheduler
