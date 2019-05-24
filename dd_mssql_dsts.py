@@ -8,21 +8,15 @@ import time
 import os
 #Mac下关闭ssl验证用到以下模块
 import ssl
+#刘辉 2019-5-24
+#钉钉接口参考文档https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq
 
-'''
-----------------------------------------------
-# 需要CMD命令下安装以下支持库：
-# pip install apscheduler
-# pip install pymssql
-
-----------------------------------------------
-'''
 #Mac下关闭ssl验证，不然会报错
 ssl._create_default_https_context = ssl._create_unverified_context
 
-#你的钉钉机器人url
+#钉钉机器人url
 global myurl
-my_url = "https://oapi.dingtalk.com/robot/send?access_token=d6cfec57209b27d7756cec6eacb48a9310f37cd564694b6943363a73e9b42efb"
+my_url = "https://oapi.dingtalk.com/robot/send?access_token=a97975dec40b2af79eeb6f01e5ba4db0d5a3b1643f49bed720373ed0b0b31a84"
 
 
 def send_request(url, datas):
@@ -76,13 +70,13 @@ def get_ddmodel_datas(type):
     }
     }
     elif type == 2:
-       my_data = {
+       my_data =  {
     "msgtype": "markdown",
     "markdown": {"title": " ",
     "text": " "
     },
     "at": {
-    "isAtAll": True
+       "isAtAll": True
     }
     }
     elif type == 3:
@@ -93,7 +87,7 @@ def get_ddmodel_datas(type):
     },
     "at": {
         "atMobiles": [
-            "188XXXXXXXX"
+            "18505583716"
         ],
         "isAtAll": False
     }
@@ -128,7 +122,7 @@ def main():
 
     #2.Markdown类型群发消息（MySQL查询结果发送）
     #获取sql数据
-    sql = "SELECT *  FROM HZ_BJ where 伯俊条码='QQA8032D8E300206'"
+    sql = "SELECT 对方户名,借方发生额,贷方发生额,时间戳 FROM  yy_ghsk WHERE 日期=convert(varchar(100),getdate(),23)"
     my_mydata = get_mysqldatas(sql)
     str1 = '\t\n\r'
     seq = []
@@ -141,18 +135,18 @@ def main():
     data = data.replace(',','\t')
     print(data)
 
-    Mytitle = "#### 南方报表\r\n条码\t华智编码\t仓库\t\n\r %s"
+    Mytitle = "#### 回款报表\r\n对方户名\t借方发生额\t贷方发生额\t时间戳\t\n\r %s"
     my_Mytitle = Mytitle.join('\t\n') % data
     my_data = get_ddmodel_datas(2)
-    my_data["markdown"]["title"] ="XXXX 通报"
+    my_data["markdown"]["title"] ="回款信息"
     my_data["markdown"]["text"] = my_Mytitle
     send_request(my_url, my_data)
 
     #3.Markdown（带图片@对象）
-    # my_data = get_ddmodel_datas(3)
-    # my_data["markdown"]["title"] = "系统预警"
-    # my_data["markdown"]["text"] = "#### 系统预警内容  \n > @188XXXXXXXX \n\n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)\n  > ###### 20点00分发布 [详情](http://www.baidu.cn/)"
-    # send_request(my_url, my_data)
+''' my_data = get_ddmodel_datas(3)
+    my_data["markdown"]["title"] = "回款信息"
+    my_data["markdown"]["text"] = "#### 系统预警内容  \n > @18505583716 \n\n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)\n  > ###### 20点00分发布 [详情](http://www.baidu.cn/)"
+    send_request(my_url, my_data)   '''
 
     #4.Link类型群发消息
     # my_data = get_ddmodel_datas(4)
