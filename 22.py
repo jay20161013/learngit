@@ -6,6 +6,8 @@ import pymssql
 import time
 import os
 import requests
+from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 global my_url
 my_url = "https://oapi.dingtalk.com/robot/send?access_token=a97975dec40b2af79eeb6f01e5ba4db0d5a3b1643f49bed720373ed0b0b31a84"
@@ -13,7 +15,10 @@ header = {"Content-Type": "application/json", "Charset": "UTF-8"}
 
 DBjson = []
 
-
+def main():
+    print('Main! The time is: %s' % datetime.now())
+    get_mssqldatas()
+    global my_url
 def get_mssqldatas():
     # 一个传入sql导出数据的函数，实例为MySQL需要先安装pymysql库，cmd窗口命令：pip install pymysql
     # 跟数据库建立连接
@@ -33,7 +38,7 @@ def get_mssqldatas():
     # 关闭连接
     cur.close()
     # 返回所需的数据
-    print(finalstr)
+    #print(finalstr)
     message(str(finalstr))
 
 
@@ -44,10 +49,32 @@ def message(data):  # 定义信息函数
             "content": data
         }
     }
-    # print(data)
+    print(data)
     String_textMsg = json.dumps(text_info)
     res = requests.post(my_url, data=String_textMsg, headers=header)
 
 
+#if __name__ == "__main__":
+#    get_mssqldatas()
+
+
+
 if __name__ == "__main__":
-    get_mssqldatas();
+    get_mssqldatas()
+    scheduler = BackgroundScheduler()
+
+    # 每隔60秒执行一次
+    scheduler.add_job(main, 'interval', seconds=3600)
+    scheduler.start()
+    print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
+    try:
+        # 其他任务是独立的线程执行
+        while True:
+            pass
+            #time.sleep(60)
+            #print('进程正在执行!')
+    except (KeyboardInterrupt, SystemExit):
+        #终止任务
+        scheduler.shutdown()
+        print('Exit The Job!')
+        
