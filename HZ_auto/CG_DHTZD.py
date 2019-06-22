@@ -43,7 +43,6 @@ cangku_y=207
 pyautogui.PAUSE=1
 pyautogui.FAILSAFE=True
 #time.sleep(5)
-
 # pyautogui.moveTo(caigouguanlix,caigouguanliy,duration=0.0025)
 # pyautogui.click()
 # pyautogui.moveTo(cggl_rcywx,cggl_rcywy,duration=0.0025)
