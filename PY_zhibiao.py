@@ -9,3 +9,5 @@ print('<table border="1">')
 print ('<tr><th>Name</th><th>Score</th><tr>')
 print ('\n'.join(tds))
 print ('</table>')
+
+
