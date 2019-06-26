@@ -4,8 +4,8 @@ import sys
 import pandas as pd
 import codecs
 import imgkit
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 
 # ReportImage -> report convert include multiple sheets into pictures
@@ -46,5 +46,5 @@ class ReportImage:
 
 
 if __name__ == '__main__':
-    html_list = ReportImage.excel_html("/xxx.xlsx", "/yyy/")
-    ReportImage.html_image(html_list, "/zzz/")
+    html_list = ReportImage.excel_html(r'D:\cs.xlsx',r'D:\11')
+    ReportImage.html_image(html_list, r'D:\11')
